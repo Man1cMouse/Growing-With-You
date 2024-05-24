@@ -1,0 +1,65 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Blueprint/UserWidget.h"
+#include "YourClass.generated.h"
+
+UCLASS()
+class YOURPROJECT_API UYourClass : public UUserWidget
+{
+    GENERATED_BODY()
+
+public:
+    // Constructor
+    UYourClass(const FObjectInitializer& ObjectInitializer);
+
+    // Function to toggle sound
+    UFUNCTION(BlueprintCallable, Category = "Sound")
+    void ToggleSound();
+
+protected:
+    virtual void NativeConstruct() override;
+
+private:
+    // Boolean variable to store the sound state
+    bool bIsSoundOn;
+
+    // Reference to the button
+    UPROPERTY(meta = (BindWidget))
+    class UButton* SoundToggleButton;
+
+    // Function to play sound
+    void PlaySound();
+
+    // Function to stop sound
+    void StopSound();
+
+    // Function to initialize button
+    void InitializeButton();
+};
+Source File (YourClass.cpp):
+cpp
+Copy code
+#include "YourClass.h"
+#include "Components/Button.h"
+
+UYourClass::UYourClass(const FObjectInitializer& ObjectInitializer)
+    : Super(ObjectInitializer)
+{
+    // Initialize the sound state
+    bIsSoundOn = true;
+}
+
+void UYourClass::NativeConstruct()
+{
+    Super::NativeConstruct();
+
+    // Initialize the button
+    InitializeButton();
+}
+
+void UYourClass::InitializeButton()
+{
+    if (SoundToggleButton)
+    {
+        SoundToggleButton->OnClicked.AddDynamic(t
